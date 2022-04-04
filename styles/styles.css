@@ -1,0 +1,44 @@
+body{
+    background-image: url(../images/background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-color: #DC6C3F;
+}
+
+.register, .login {
+    background-color: #FFFFFF;
+    width: max-content;
+    border: 2px solid;
+    border-radius: 5px;
+    box-shadow: 10px 10px 50px;
+    padding: 10px;
+    margin: auto;
+
+}
+.register input, .login input{
+    border: 2px solid #000000;
+    border-radius: 5px;
+}
+#login-form, #register-form {
+    height: 75vh;
+    display: flex;
+    align-content: center;
+}
+label, input {
+    margin: 10px;
+    display: inline-block;
+    width: 40%;
+}
+input[type="submit"]{
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #DC6C3F;
+    color: #FFFFFF;
+}
+.form-header {
+    color: #DC6C3F;
+    text-align: center;
+    font-weight: 300;
+}
