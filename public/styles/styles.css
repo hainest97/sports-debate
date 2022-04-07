@@ -1,44 +1,162 @@
-body{
-    background-image: url(../images/background.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-color: #DC6C3F;
+* {
+    margin:0;
 }
-
-.register, .login {
+body{
+    background-image: radial-gradient(#ff5e00,#fd9b74,#ffffff);
+}
+nav {
+    background-color: #85322A;
+}
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+}
+nav ul li {
+    width: 375px;
+    margin: 10px 0 0 0;   
+}
+nav ul li a, nav ul li #login-btn {
+    color: #FFF;
+    text-decoration: none;
+    line-height: 1em;
+    font-size: 36px;
+}
+#login-btn {
+    border: none;
+    background-color: #85322A;
+}
+.logo {
+    display:flex;
+    justify-content: left; 
+}
+.search-bar {
+    display:flex;
+    justify-content: center; 
+}
+.login-dropdown {
+    position: relative;
+    display:flex;
+    justify-content: right; 
+}
+.content {
+    color: #000000;
+    position:absolute;
+    top:40px;
+    right: 0;
+    display: block;;
+}
+.register, .login, .content {
     background-color: #FFFFFF;
-    width: max-content;
-    border: 2px solid;
-    border-radius: 5px;
-    box-shadow: 10px 10px 50px;
+    width: 365;
     padding: 10px;
     margin: auto;
-
 }
-.register input, .login input{
+.content {
     border: 2px solid #000000;
     border-radius: 5px;
 }
+.content li {
+    color: #DC6C3F;
+    text-align: center;
+    font-weight: 300;
+    width: 365;
+    padding: 10px 0;
+    margin: 10px 0;
+    border: 2px solid #000000;
+    border-radius: 5px;
+}
+.search-form input, .register input, .login input{
+    border: 2px solid #000000;
+    border-radius: 5px;
+}
+#search-button {
+    border: 2px solid #000000;
+    border-radius: 5px;
+    background-color: #DC6C3F;
+    color: #FFFFFF;
+}
 #login-form, #register-form {
-    height: 75vh;
+    /*height: 75vh;*/
     display: flex;
     align-content: center;
+}
+.logo:hover a, .login-dropdown:hover button i{
+    color:#ff0000;
 }
 label, input {
     margin: 10px;
     display: inline-block;
     width: 40%;
 }
-input[type="submit"]{
+.login input[type="submit"], .register input[type="submit"] {
     display: block;
     margin: 10px auto;
     padding: 10px;
     background-color: #DC6C3F;
     color: #FFFFFF;
 }
-.form-header {
-    color: #DC6C3F;
-    text-align: center;
-    font-weight: 300;
+
+#form-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
+#topicForm {
+    width: 375px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#topicForm input{
+    width:max-content;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    font-size:18px;
+}
+#topicForm input[type="submit"]{
+    background-color: #DC6C3F;
+    color: #FFFFFF;
+    width:max-content;  
+}
+#topics-section{
+    list-style: none;
+    padding:100px;
+    display: table;
+    margin: 0 auto;
+    
+}
+.topic{
+    background-color: #FFF;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    
+}
+.topic .delete-btn {
+    width: max-content;
+    float: right;
+    opacity: 0.5;
+    border: none;
+    background-color: #fff;
+}
+.topic .delete-btn:hover {
+    color: #ff0000;
+}
+.topic .topic-name {
+    font-weight: bold;
+    text-align: center;
+    font-size:18px;
+}
+.topic .topic-date {
+    opacity: 0.5;
+}
+.hide {
+    display: none;
+  }
+
