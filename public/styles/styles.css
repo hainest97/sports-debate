@@ -9,7 +9,7 @@ nav {
 }
 nav ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-content: center;
     flex-wrap: wrap;
     list-style-type: none;
@@ -30,23 +30,30 @@ nav ul li a, nav ul li #login-btn {
 }
 .logo {
     display:flex;
-    justify-content: left; 
+    justify-content: center; 
 }
 .search-bar {
     display:flex;
-    justify-content: center; 
+    justify-content: space-around; 
 }
 .login-dropdown {
     position: relative;
     display:flex;
-    justify-content: right; 
+    justify-content: center; 
 }
 .content {
     color: #000000;
     position:absolute;
     top:40px;
     right: 0;
-    display: block;;
+    display: none;
+}
+.login-dropdown:hover .content {
+    display: block;
+}
+#err {
+    color: #ff0000;
+    text-align: center;
 }
 .register, .login, .content {
     background-color: #FFFFFF;
@@ -58,7 +65,7 @@ nav ul li a, nav ul li #login-btn {
     border: 2px solid #000000;
     border-radius: 5px;
 }
-.content li {
+.content li{
     color: #DC6C3F;
     text-align: center;
     font-weight: 300;
@@ -67,6 +74,19 @@ nav ul li a, nav ul li #login-btn {
     margin: 10px 0;
     border: 2px solid #000000;
     border-radius: 5px;
+}
+.content li a {
+    color: #DC6C3F;
+    font-size: 24px;
+    padding: 10px 150px;
+}
+.content li a:hover {
+    color: #85322A;
+}
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 .search-form input, .register input, .login input{
     border: 2px solid #000000;
@@ -77,11 +97,33 @@ nav ul li a, nav ul li #login-btn {
     border-radius: 5px;
     background-color: #DC6C3F;
     color: #FFFFFF;
+    margin: 5px 0;
 }
-#login-form, #register-form {
-    /*height: 75vh;*/
+
+.register, .login, .edit, .profile {
+    background-color: #FFFFFF;
+    width: 375px;
+    border: 2px solid;
+    border-radius: 5px;
+    box-shadow: 10px 10px 50px;
+    padding: 10px;
+    margin: auto;
+}
+#login-form, #register-form, #edit-form, #profile-section{
+    height: 75vh;
     display: flex;
     align-content: center;
+}
+.profile li {
+    list-style: none;
+    text-align: center;
+}
+.profile li p {
+    display: inline-block;
+    width: 40%;
+}
+.key {
+    font-weight: bold;
 }
 .logo:hover a, .login-dropdown:hover button i{
     color:#ff0000;
@@ -91,13 +133,22 @@ label, input {
     display: inline-block;
     width: 40%;
 }
-.login input[type="submit"], .register input[type="submit"] {
+.login input[type="submit"], .register input[type="submit"], .edit input[type="submit"],.btn {
     display: block;
     margin: 10px auto;
     padding: 10px;
     background-color: #DC6C3F;
     color: #FFFFFF;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    width: 40%;
 }
+.form-header, .header {
+    color: #DC6C3F;
+    text-align: center;
+    font-weight: 300;
+}
+
 
 #form-container {
     display: flex;
@@ -156,7 +207,4 @@ label, input {
 .topic .topic-date {
     opacity: 0.5;
 }
-.hide {
-    display: none;
-  }
 

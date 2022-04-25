@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Register</title>
     <link rel="stylesheet" href="./styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"> 
 </head>
@@ -27,21 +27,36 @@
                     <i class="fa">&#xf2bd</i>
                 </button>
                 <ul id="content" class="content">
-                    
                 </ul>
             </li>
         </ul>
     </nav>
-    <main>
-        <div id="form-container">
-        <form id="topicForm">
-            <input type="text" id="createTopic" placeholder="Add Topic" required>
-            <input type="submit" value="+">
-          </form>
-        </div>
-          <ul id="topics-section">
-          </ul>
-    </main>
+    <div id="register-form">
+        <form id = "register" class="register">
+            <h1 class="form-header">Register</h2>
+            <label for="registerFName">First Name</label>
+            <input type="text" id="registerFName" name="registerFName">
+            <br>
+            <label for="registerLName">Last Name</label>
+            <input type="text" id="registerLName" name="registerLName">
+            <br>
+            <label for="registerUName">Username</label>
+            <input type="text" id="registerUName" name="registerUName">
+            <br>
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" name="registerEmail">
+            <br>
+            <label for="registerPWord">Password</label>
+            <input type="password" id="registerPword" name="registerPword">
+            <br>
+            <label for="registerConfPWord">Confirm Password</label>
+            <input type="password" id="registerConfPword" name="registerConfPword">
+            <br>
+            <p id="err"></p>
+            <input type="submit" value="Register">
+        </form>
+    </div> 
+    <script src="./scripts/login.js"></script>
     <script src="./scripts/main.js"></script>
     <!--<script type="module" src="../scripts/user.js"></script>-->
     <!--<script type="module" src="../scripts/topic.js"></script>-->
