@@ -74,6 +74,10 @@ else {
 
 // Fetch method implementation:
 async function fetchData(url = '', data = {}, methodType) {
+    if(methodType === "GET") {
+        fetch(`http://localhost:3000${url}/${topic.TopicId}`)
+        .then((res)=>res.json())
+    }
     const response = await fetch(`http://localhost:3000${url}`, {
       method: methodType, // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin

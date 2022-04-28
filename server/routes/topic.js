@@ -3,6 +3,10 @@ const Topic = require('../models/topic');
 const router = express.Router();
 
 router
+
+    //.get('/:id',async (req, res) => {
+    //    let id = req.params.id;
+    //})
     .post('/getAllTopics', async (req, res) => {
         try{
             const topics = Topic.getAllTopics();
