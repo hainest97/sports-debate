@@ -179,6 +179,7 @@ function login(e) {
     fetchData('/users/login', { username: uname, password: pword},"POST")
     .then((data) => {
         if(!data.message) {
+            console.log(JSON.stringify(data));
             setCurrentUser(data);
             window.location.href = "./index.html";
         }
@@ -205,12 +206,15 @@ function register(e) {
     fetchData('/users/register', {firstname: fname, lastname: lname, username: uname, 
         email: email, password: pword},"POST")
       .then((data) => {
-        setCurrentUser(data);
-        window.location.href = "index.html";
+        if(!data.message) {
+            console.log(JSON.stringify(data));
+            setCurrentUser(data);
+            window.location.href = "./index.html";
+        }
       })
       .catch((error) => {
         const errText = error.message;
-        document.querySelector("#err").innerHTML = errText;
+        document.querySelector("err").innerHTML = errText;
         document.getElementById("registerPword").value = "";
         document.getElementById("registerConfPword").value = "";
         console.log(`Error! ${errText}`)
@@ -233,7 +237,7 @@ function signUp(e) {
     
 }
 // PROFILE
-
+let currUser = getCurrentUser();
 let profile = document.getElementById("profile-section");
 if (profile) {
     profile.innerHTML = 
@@ -246,22 +250,22 @@ if (profile) {
         <br>
         <li>
             <p class = "key">First name</p>
-            <p class = "value">${user.fname}
+            <p class = "value">${currUser.first_name}</p>
         <li>
         <br>
         <li>
             <p class = "key">Last name</p>
-            <p class = "value">${user.lname}
+            <p class = "value">${currUser.last_name}</p>
         <li>
         <br>
         <li>
             <p class = "key">User name</p>
-            <p class = "value">${user.uname}
+            <p class = "value">${currUser.user_name}</p>
         <li>
         <br>
         <li>
             <p class = "key">Email</p>
-            <p class = "value">${user.email}
+            <p class = "value">${currUser.email}</p>
         <li>
         <br>
         <p id="err"></p>
@@ -287,7 +291,7 @@ if (edit_form) {
         <h1 class="form-header">Edit Profile</h2>
         <br>
         <label for="editUName">Username</label>
-        <input type="text" id="editUName" name="editUName" placeholder="${user.uname}">
+        <input type="text" id="editUName" name="editUName" placeholder="${currUser.user_name}">
         <br>
         <p id="err"></p>
         <input type="submit" value="Edit">
@@ -304,12 +308,13 @@ function editAccount(e) {
     e.preventDefault();
   
     let userName = document.getElementById("editUName").value;
-    if(userName === user.uname) {
+    if(userName === currUser.user_name) {
       let err = "No changes were made";
       document.querySelector("#err").innerHTML = err;
     }
     else {
-      fetchData('/users/edit', {userId: user.userId, userName: userName}, "PUT")
+      console.log(currUser.user_id);
+      fetchData('/users/edit', {userId: currUser.user_id, username: userName}, "PUT")
       .then((data) => {
         if(!data.message) {
           removeCurrentUser();
@@ -326,7 +331,7 @@ function editAccount(e) {
   }
   function deleteAccount() {
     if(confirm('Are you sure you want to delete your account???')) {
-      fetchData('/users/delete', {userId: user.userId}, "DELETE")
+      fetchData('/users/delete', {userId: currUser.user_id}, "DELETE")
       .then((data) => {
         if(!data.message) {
           console.log(data.success)
@@ -343,7 +348,10 @@ function editAccount(e) {
   }
   
 //TOPIC
-
+function right(str, chr)
+  {
+	return str.slice(str.length-chr,str.length);
+  }
 let topAmount = 10; 
 class Topic {
   constructor(topic) {
@@ -363,17 +371,76 @@ let topicSection = document.getElementById("topics-section");
 function getAllTopics() {
     fetchData('/topics/getAllTopics',{},"POST")
     .then((data) => {
-        console.log(data);
         data.forEach((topic) => {
-            let li = 
-            `
-            <div class="topic">
-                <p class="delete-btn" onclick="deleteTopic(event)">X</p>
-                <p class="topic-name">${topic.topicText}</p>
-                <p class="topic-date">${topic.dateTime}</p>
-            </div>
-            `
-            topicSection.innerHTML += li;
+            //let topicUser = "Author: ";
+            fetchData('/users/getUserById',{userId: topic.user_id},"POST")
+            .then((data) => {
+              let creator = "Creator: " + data.user_name;
+              let date = new Date(topic.create_date);
+              let hour = date.getHours()%12;
+              let ampm;
+              if(date.getHours()/12>1){
+                ampm = "PM";
+              }
+              else{
+                ampm = "AM";
+              }
+              let dt = "Date: "+date.getMonth()+
+                  "/"+(date.getDate()+1)+
+                  "/"+date.getFullYear()+
+                  " "+hour+
+                  ":"+right('00' + date.getMinutes(),2)+
+                  ampm;
+              let li;
+              if(getCurrentUser()){
+                if(topic.user_id==getCurrentUser().user_id){
+                  li = 
+                    `
+                  <div class="topic">
+                    <p id="edit-btn2" class="edit-btn"><i class="fa">&#xf044</i></p>
+                    <p class="delete-btn" onclick="deleteTopic(event)">X</p>
+                    <p class="topic-id">${topic.topic_id}</p>
+                    <p class="topic-name">${topic.topic_text}</p>
+                    <p class="topic-creator">${creator}</p>
+                    <p class="topic-date">${dt}</p>
+                  </div>
+                  `
+                  
+                } else {
+                  li = 
+                  `
+                  <div class="topic">
+                    <p class="topic-id">${topic.topic_id}</p>
+                    <p class="topic-name">${topic.topic_text}</p>
+                    <p class="topic-creator">${creator}</p>
+                    <p class="topic-date">${dt}</p>
+                  </div>
+                  `
+                  }
+              } else {
+                li = 
+                `
+                <div class="topic">
+                  <p class="topic-id">${topic.topic_id}</p>
+                  <p class="topic-name">${topic.topic_text}</p>
+                  <p class="topic-creator">${creator}</p>
+                  <p class="topic-date">${dt}</p>
+                </div>
+                `
+              }
+              topicSection.innerHTML += li;
+              let edit_btn2 = document.getElementById("edit-btn2");
+              if (edit_btn2) edit_btn2.addEventListener("click", function(e) {
+                localStorage.setItem('topicId',e.target.parentElement.parentElement.children[2].innerText);
+                localStorage.setItem('topicText',e.target.parentElement.parentElement.children[3].innerText);
+                window.location.href = "./editTopic.html";
+              });
+            })
+            .catch((error) => {
+              const errText = error.message;
+              console.error(errText);
+            })
+            
         })
     })
     .catch((error) => {
@@ -387,25 +454,84 @@ if (topicSection) {
 }
 function addTopic(e){
     e.preventDefault();
+    if(!currUser){
+      window.location.href = "./login.html";
+    }
     let topic = document.getElementById("createTopic").value;
-    fetchData('/topics/add',{topicText: topic, userId: getCurrentUser().userId},"POST")
-    .then((data) => {
-        
-        let li = 
-        `
-        <div class="topic">
-            <p class="delete-btn" onclick="deleteTopic(event)">X</p>
-            <p class="topic-name">${data.topicText}</p>
-            <p class="topic-date">${data.dateTime}</p>
-        </div>
-        `
-        topicSection.innerHTML += li;
-        document.getElementById("createTopic").value = "";
+    fetchData('/topics/add',{topicText: topic, userId: getCurrentUser().user_id},"POST")
+    .then((topic) => {
+      fetchData('/users/getUserById',{userId: topic.user_id},"POST")
+            .then((data) => {
+              let creator = "Creator: " + data.user_name;
+              let date = new Date(topic.create_date);
+              let hour = date.getHours()%12;
+              let ampm;
+              if(date.getHours()/12>1){
+                ampm = "PM";
+              }
+              else{
+                ampm = "AM";
+              }
+              let dt = "Date: "+date.getMonth()+
+                  "/"+(date.getDate()+1)+
+                  "/"+date.getFullYear()+
+                  " "+hour+
+                  ":"+right('00' + date.getMinutes(),2)+
+                  ampm;
+              let li;
+              if(getCurrentUser()){
+                if(topic.user_id==getCurrentUser().user_id){
+                  li = 
+                    `
+                  <div class="topic">
+                    <p id="edit-btn2" class="edit-btn"><i class="fa">&#xf044</i></p>
+                    <p class="delete-btn" onclick="deleteTopic(event)">X</p>
+                    <p class="topic-id">${topic.topic_id}</p>
+                    <p class="topic-name">${topic.topic_text}</p>
+                    <p class="topic-creator">${creator}</p>
+                    <p class="topic-date">${dt}</p>
+                  </div>
+                  `
+                } else {
+                  li = 
+                  `
+                  <div class="topic">
+                    <p class="topic-id">${topic.topic_id}</p>
+                    <p class="topic-name">${topic.topic_text}</p>
+                    <p class="topic-creator">${creator}</p>
+                    <p class="topic-date">${dt}</p>
+                  </div>
+                  `
+                  }
+              } else {
+                li = 
+                `
+                <div class="topic">
+                  <p class="topic-id">${topic.topic_id}</p>
+                  <p class="topic-name">${topic.topic_text}</p>
+                  <p class="topic-creator">${creator}</p>
+                  <p class="topic-date">${dt}</p>
+                </div>
+                `
+              }
+              topicSection.innerHTML += li;
+              let edit_btn2 = document.getElementById("edit-btn2");
+              if (edit_btn2) edit_btn2.addEventListener("click", function(e) {
+                localStorage.setItem('topicId',e.target.parentElement.parentElement.children[2])
+                localStorage.setItem('topicText',e.target.parentElement.parentElement.children[3])
+                window.location.href = "./editTopic.html";
+              });
+            })
+            .catch((error) => {
+              const errText = error.message;
+              console.error(errText);
+            })
     })
     .catch((error) => {
         const errText = error.message;
         console.error(errText);
     })
+    document.getElementById("createTopic").value = "";
     
     /*
     let topics = document.querySelectorAll(".delete-btn");
@@ -417,7 +543,67 @@ function addTopic(e){
     })
     */
 }
+let edit_topic = document.getElementById("edit-topic");
+if (edit_topic) {
+    edit_topic.innerHTML =
+    `
+    <form id="edit" class="edit">
+        <h1 class="form-header">Edit Topic</h2>
+        <br>
+        <!--<label for="editUName">Username</label>-->
+        <input type="text" id="editTopic" name="editTopic" value="${localStorage.getItem('topicText')}">
+        <br>
+        <p id="err"></p>
+        <input type="submit" value="Edit">
+        <button class="btn" id="cancel">Cancel</button>
+    </form>
+    
+    `
+    edit_topic.addEventListener("submit",editTopic);
+    document.getElementById("cancel").addEventListener('click', (e) => {
+        window.location.href = "index.html";
+      })
+}
+function editTopic(e) {
+  e.preventDefault();
+
+  let topicText = document.getElementById("editTopic").value;
+  if(topicText === localStorage.getItem('topicText')) {
+    let err = "No changes were made";
+    document.querySelector("#err").innerHTML = err;
+  }
+  else {
+    console.log(currUser.user_id);
+    fetchData('/topics/edit', {topicId: localStorage.getItem('topicId'), topicText:topicText}, "PUT")
+    .then((data) => {
+      if(!data.message) {
+        localStorage.removeItem('topicId');
+        localStorage.removeItem('topicText');
+        window.location.href = "index.html";
+      }
+    })
+   .catch((error) => {
+     const errText = error.message;
+     document.querySelector("#err").innerHTML = errText;
+     console.log(`Error! ${errText}`)
+   });
+  }
+}
 function deleteTopic(e) {
+    let topId = e.target.parentElement.children[2].innerText;
+    if(confirm('Are you sure you want to delete this topic???')) {
+        fetchData('/topics/delete', {topicId: topId}, "DELETE")
+        .then((data) => {
+          if(!data.message) {
+            console.log(data.success)
+          }
+        })
+        .catch((error) => {
+          const errText = error.message;
+          document.getElementById("err").innerHTML = errText;
+          console.log(`Error! ${errText}`)
+        })
+      }
     let li = e.target.parentElement;
     topicSection.removeChild(li);
 }

@@ -24,6 +24,25 @@ const query = (sql, binding) => {
         })
     })
 }
-const createQuery = "CREATE DATABASE IF NOT EXISTS topic_db";
+const createQuery = "CREATE DATABASE IF NOT EXISTS sports_debate_db";
 con.query(createQuery);
+//let drop = `DROP TABLE users`
+//con.query(drop);
+/*let sql = `CREATE TABLE IF NOT EXISTS users (
+    user_id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    CONSTRAINT user_pk PRIMARY KEY(user_id)
+  )`;
+con.query(sql);
+let sql2 = `CREATE TABLE IF NOT EXISTS topics (
+    topic_id INT NOT NULL AUTO_INCREMENT,
+    topic_text VARCHAR(255) NOT NULL,
+    create_date TIMESTAMP NOT NULL,
+    CONSTRAINT topic_pk PRIMARY KEY(topic_id)
+)`;
+con.query(sql2);*/
 module.exports = {con, query};

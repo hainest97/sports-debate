@@ -9,20 +9,36 @@ router
     //})
     .post('/getAllTopics', async (req, res) => {
         try{
-            const topics = Topic.getAllTopics();
+            const topics = await Topic.getAllTopics();
             res.send(topics);
         }
         catch(err) {
             res.status(401).send({message: err.message});
         }
     })
-    .post('/add', (req, res) => {
+    .post('/add', async (req, res) => {
         try {
-            const topic = Topic.addTopic(req.body);
+            const topic = await Topic.addTopic(req.body,req.body.topicText,req.body.userId);
             res.send({...topic})
         } catch(error) {
             res.status(401).send({message: error.message});
         }
     })
+    .delete('/delete', async (req, res)=> {
+        try {
+            await Topic.deleteTopic(req.body.topicId);
+        } catch(error) {
+            res.status(401).send({message: error.message});
+        }
+    })
+    .put('/edit', async (req, res) => {
+        try{
+          const topic = await Topic.editTopic(req.body);
+          res.send({...topic})
+        }
+        catch (err){
+          res.status(401).send({message:err.message})
+        }
+      })
 
 module.exports = router;
