@@ -32,7 +32,7 @@ To use the app
 
 ![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/Register.png)
 ![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/View_Topics.png)
-![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/Edit_Topics.png)
+![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/Edit_Topic.png)
 ![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/Profile.png)
 ![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/Edit_Profile.png)
 
