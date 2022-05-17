@@ -9,6 +9,6 @@ put posts under a topic and replies to any posts.
 they would be able to do this right on the page where the post is.
 
 3. 
-![Photo](https://github.com/hainest97/sports-debate/blob/main/ERD.png)
+![Photo](https://github.com/hainest97/sports-debate/blob/main/Screenshots/ERD.png)
 
 
